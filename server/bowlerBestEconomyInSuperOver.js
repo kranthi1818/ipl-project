@@ -25,7 +25,6 @@ function bowlerBestEconomyInSuperOver(deliveriesData){
     for(let key in result){
 
        let insideOBj =  result[key]
-
        economy[key] = (parseInt(insideOBj.runs) / parseInt(insideOBj.balls )) * 6
        
     }
