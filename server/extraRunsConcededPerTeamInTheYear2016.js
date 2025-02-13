@@ -1,9 +1,7 @@
 const fs = require('fs');
 
 let matchesData = JSON.parse(fs.readFileSync('./data/matches.json', 'utf8'));
-
 let deliveriesData = JSON.parse(fs.readFileSync('./data/deliveries.json', 'utf8'))
-
 
 function extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData) {
 
@@ -16,18 +14,15 @@ function extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData) {
 
         let result = deliveriesData.reduce((extraRuns, deliveries) => {
 
-
                 if (idOf2016.includes(deliveries["match_id"])) {
 
                         extraRuns[deliveries.bowling_team] = (extraRuns[deliveries.bowling_team] ?? 0) + Number(deliveries.extra_runs)
-
                 }
-
                 return extraRuns
         }, {})
-        // console.log(result)
         return result
 }
+
 let output = extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData)
 console.log(output)
 fs.writeFileSync('./public/output/extraRunsConcededPerTeamInTheYear2016.json', JSON.stringify(output, null, 2), 'utf8');

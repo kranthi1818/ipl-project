@@ -4,9 +4,7 @@ let matchesData = JSON.parse(fs.readFileSync('../data/matches.json', 'utf8'));
 
 let deliveriesData = JSON.parse(fs.readFileSync('../data/deliveries.json', 'utf8'))
 
-
 function strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData) {
-
 
     let yearIdObj = {}
     for (let matches of matchesData) {
@@ -24,7 +22,6 @@ function strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData) {
 
                     if (!batsmen[season]) {
                         batsmen[season] = { runs: 0, balls: 0 }
-
                     }
 
                     batsmen[season]['runs'] += parseInt(deliveries.batsman_runs)
@@ -35,7 +32,6 @@ function strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData) {
             }
         }
     }
-    // console.log(batsmen)
     let resultStrike = {}
     let res;
     for (let strikeRate in batsmen) {
@@ -45,13 +41,10 @@ function strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData) {
         }
         resultStrike[strikeRate] = { ['Strike Rate']: res.toFixed(2) }
     }
-    // console.log(resultStrike);
     return resultStrike
 
-
 }
-
- let output  =  strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData)
+let output = strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData)
 console.log(output);
 
- fs.writeFileSync('../public/output/strikeRateOfBatsmanForEverySeason.json', JSON.stringify(output, null, 2), 'utf8');
+fs.writeFileSync('../public/output/strikeRateOfBatsmanForEverySeason.json', JSON.stringify(output, null, 2), 'utf8');
