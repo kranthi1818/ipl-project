@@ -4,38 +4,36 @@ let matchesData = JSON.parse(fs.readFileSync('./data/matches.json', 'utf8'));
 
 function highestNumberOfPlayerOfTheMatch(matchesData) {
 
-    let eachYear = matchesData.reduce((acc, curr) => {
 
-        if (!acc[curr.season]) {
-            acc[curr.season] = {}
+    let result ={}
+
+    for(let match of matchesData){
+        if(!result[match.season]){
+            result[match.season] ={}
         }
-        let year = curr.season
-        let player = curr.player_of_match
-
-        if (!acc[year][player]) {
-            acc[year][player] = 1
+        if(!result[match.season][match.player_of_match]){
+            result[match.season][match.player_of_match] = 1
         }else{
-        acc[year][player] += 1
+            result[match.season][match.player_of_match]  += 1
         }
-        return acc
+    }
 
-    }, {})
-
-let highestPlayer = {}
-
-    for (let key in eachYear) {
+    let finalResult = {}
+    for(let season in result){
         let maxPlayer = ''
         let maxValue = -1
-      
-       for(let player in eachYear[key]){
-        if(eachYear[key][player] > maxValue){
-            maxValue = eachYear[key][player]
-            maxPlayer = player
+        for(let players in result[season]){
+            if(result[season][players] > maxValue){
+                maxValue = result[season][players]
+                maxPlayer = players
+             }
         }
-       }
-      highestPlayer[key] = {name:maxPlayer,count:maxValue}  
+        finalResult[season] = {name :maxPlayer,count:maxValue}
     }
-    return highestPlayer
+   
+ 
+    return finalResult
+
 }
 
  let output = highestNumberOfPlayerOfTheMatch(matchesData)

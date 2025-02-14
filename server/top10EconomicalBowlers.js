@@ -6,40 +6,41 @@ let deliveriesData = JSON.parse(fs.readFileSync('./data/deliveries.json', 'utf8'
 
 function top10EconomicalBowlers(matchesData, deliveriesData) {
 
-    let idOf2015 = matchesData.filter((items) => items['season'] == '2015')
-        .map((items) => items['id']);
-
-    let bowlerRunsAndBalls = deliveriesData.reduce((runsBalls, deliveries) => {
-
-        if (idOf2015.includes(deliveries['match_id'])) {
-            if (!runsBalls[deliveries['bowler']]) {
-                runsBalls[deliveries['bowler']] = { runs: 0, balls: 0 }
-            }
-            runsBalls[deliveries['bowler']]['runs'] += Number(deliveries['wide_runs']) || Number(deliveries['noball_runs']) || Number(deliveries['batsman_runs'])
-
-            if (deliveries['wide_runs'] == 0 && deliveries['noball_runs'] == 0) {
-                runsBalls[deliveries['bowler']]['balls']++
-            }
-
+let idOf2015 = []
+    for(let match of matchesData ){
+        if(match.season == '2015'){
+            idOf2015.push(match.id)
         }
-        return runsBalls
-    }, {})
-    let economy = {}
-
-    for (let key in bowlerRunsAndBalls) {
-
-        let runs = bowlerRunsAndBalls[key]['runs']
-        let balls = bowlerRunsAndBalls[key]['balls']
-        economy[key] = ((parseInt(runs) / parseInt(balls)) * 6).toFixed(2)
     }
-   
-    let entries = Object.entries(economy).sort((a, b) => a[1] - b[1])
 
-    let topTenBowlers = entries.slice(0, 10)
+    let bowlerRunsAndBalls = {}
+    for(let delivery of deliveriesData){
+        if(idOf2015.includes(delivery.match_id)){
+            if(!bowlerRunsAndBalls[delivery.bowler]){
+                bowlerRunsAndBalls[delivery.bowler] = {runs:0,balls:0}
+            }
 
-    let finalResultObj = Object.fromEntries(topTenBowlers)
+            bowlerRunsAndBalls[delivery.bowler].runs += Number(delivery.wide_runs) || Number(delivery.noball_runs) || Number(delivery.batsman_runs)
 
-    return finalResultObj
+            if(delivery.wide_runs == 0 && delivery.noball_runs == 0){
+                bowlerRunsAndBalls[delivery.bowler].balls +=1
+            }
+        }
+    }
+    
+  let economy = {}
+
+  for(let key in bowlerRunsAndBalls){
+    let runs  = bowlerRunsAndBalls[key].runs
+    let balls  = bowlerRunsAndBalls[key].balls
+
+    economy[key] = (( parseInt(runs) / parseInt(balls)) * 6).toFixed(2)
+  }
+
+  let finalResult = Object.fromEntries( Object.entries(economy).sort((a,b)=> a[1]-b[1]).slice(0,10))
+
+
+return finalResult
 
 }
 let output = top10EconomicalBowlers(matchesData, deliveriesData)

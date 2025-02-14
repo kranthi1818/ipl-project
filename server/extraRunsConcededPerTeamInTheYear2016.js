@@ -5,22 +5,24 @@ let deliveriesData = JSON.parse(fs.readFileSync('./data/deliveries.json', 'utf8'
 
 function extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData) {
 
-        let idOf2016 = matchesData.reduce((idArray, matches) => {
-                if (matches["season"] == '2016') {
-                        idArray.push((matches.id))
+        let idOf2016 = []
+        for(let match of matchesData){
+                if(match.season == '2016'){
+                        idOf2016.push(match.id)
                 }
-                return idArray
-        }, [])
+        }
+        let finalResult = {}
 
-        let result = deliveriesData.reduce((extraRuns, deliveries) => {
-
-                if (idOf2016.includes(deliveries["match_id"])) {
-
-                        extraRuns[deliveries.bowling_team] = (extraRuns[deliveries.bowling_team] ?? 0) + Number(deliveries.extra_runs)
+        for(let delivery of deliveriesData){
+                if(idOf2016.includes(delivery.match_id)){
+                        if(!finalResult[delivery.bowling_team]){
+                                finalResult[delivery.bowling_team] = Number(delivery.extra_runs)
+                        }else{
+                                finalResult[delivery.bowling_team] += Number(delivery.extra_runs)
+                        }
                 }
-                return extraRuns
-        }, {})
-        return result
+        }
+        return finalResult
 }
 
 let output = extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData)

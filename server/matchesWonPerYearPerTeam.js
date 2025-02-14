@@ -4,25 +4,21 @@ const rawData = fs.readFileSync('./data/matches.json', 'utf8');
 const matches = JSON.parse(rawData);
 
 function matchesWonPerYearPerTeam(matches) {
-    const result = matches.reduce((acc, curr) => {
+    let result ={}
 
-        if (curr && typeof curr == 'object' && typeof curr.season != 'undefined' && typeof curr.winner != 'undefined') {
-
-            const winner = curr.winner.trim();
-            if (winner != '')
-                if (!acc[curr.season]) {
-                    acc[curr.season] = {}
-                } 
-                
-                if (acc[curr.season][curr.winner]) {
-                    acc[curr.season][curr.winner] += 1
-                } else {
-                    acc[curr.season][curr.winner] = 1
-                }
-        }
-        return acc
-    }, {})
-    return result
+    for(let match of matches){
+        if (match && typeof match == 'object' && typeof match.season != 'undefined' && typeof match.winner != 'undefined') {
+            if(!result[match.season]){
+                result[match.season] = {}
+            }
+            if(!result[match.season][match.winner]){
+                result[match.season][match.winner] = 1
+            }else{
+                result[match.season][match.winner] += 1
+            } 
+    }
+}
+return result
 }
 
 let output = matchesWonPerYearPerTeam(matches)

@@ -4,39 +4,39 @@ let deliveriesData = JSON.parse(fs.readFileSync('./data/deliveries.json', 'utf8'
 
 function highestNumberOneDismissedByAnother( deliveriesData) {
 
-    let result = deliveriesData.reduce((acc, curr) => {
+    let result = {}
 
-        if (curr.dismissal_kind != "run out" && curr.player_dismissed != "") {
-
-            if (!acc[curr.batsman]) {
-                acc[curr.batsman] = {}
+    for(let delivery of deliveriesData){
+        if(delivery.dismissal_kind != 'run out' && delivery.player_dismissed){
+            if(!result[delivery.batsman]){
+                result[delivery.batsman] = {}
             }
 
-            if (!acc[curr.batsman][curr.bowler]) {
-                acc[curr.batsman][curr.bowler] = 1
+            if(!result[delivery.batsman][delivery.bowler]){
+                result[delivery.batsman][delivery.bowler] = 1
             }else{
-            acc[curr.batsman][curr.bowler] += 1
-            }
-        }
-        return acc
-    }, {})
-
-    let max = -1
-    let maxBowler = ''
-    let maxBatsman
-    let finalObj = {}
-    for (let batsman in result) {
-        for (let bowler in result[batsman]) {
-            if (result[batsman][bowler] > max) {
-                max = result[batsman][bowler]
-                maxBowler = bowler
-                maxBatsman = batsman
+                result[delivery.batsman][delivery.bowler] += 1
             }
         }
     }
-    finalObj[maxBatsman] = { [maxBowler]: max }
+    
+    let maxBatter = ''
+    let maxBowler=''
+    let maxValue = -1
+    let finalResult ={}
 
-    return finalObj
+    for(let  batter in result){
+        for(let bowler in result[batter]){
+            if(result[batter][bowler] > maxValue){
+                maxValue = result[batter][bowler]
+                maxBatter = batter
+                maxBowler = bowler
+            }
+        }
+    }
+    finalResult[maxBatter] = {[maxBowler]:maxValue}
+    return finalResult
+
 }
 
 let output = highestNumberOneDismissedByAnother( deliveriesData)

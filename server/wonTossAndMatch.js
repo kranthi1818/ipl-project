@@ -3,16 +3,17 @@ const fs = require('fs');
 let matchesData = JSON.parse(fs.readFileSync('./data/matches.json', 'utf8'));
 
 function wonTossAndMatch(matchesData){
-          let result = matchesData.reduce((acc,curr)=>{
-
-            if(!acc[curr["toss_winner"]]){
-                acc[curr["toss_winner"]] = 0
+          
+          let result ={}
+          for(let match of matchesData){
+            if(!result[match.toss_winner]){
+                result[match.toss_winner] = 0
             }
-              if(curr['toss_winner'] == curr['winner']){
-                acc[curr["toss_winner"]] += 1 
-              }
-              return acc
-          },{})
+            if(match.toss_winner == match.winner){
+              result[match.toss_winner] += 1 
+
+            }
+          }
           return result
 }
  let output =   wonTossAndMatch(matchesData)
