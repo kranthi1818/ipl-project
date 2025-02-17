@@ -46,3 +46,4 @@ return finalResult
 let output = top10EconomicalBowlers(matchesData, deliveriesData)
 console.log(output)
 fs.writeFileSync('./public/output/top10EconomicalBowlers.json', JSON.stringify(output, null, 2), 'utf8');
+

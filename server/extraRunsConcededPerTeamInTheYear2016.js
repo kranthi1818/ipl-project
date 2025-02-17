@@ -24,7 +24,6 @@ function extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData) {
         }
         return finalResult
 }
-
 let output = extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData)
 console.log(output)
 fs.writeFileSync('./public/output/extraRunsConcededPerTeamInTheYear2016.json', JSON.stringify(output, null, 2), 'utf8');
