@@ -20,6 +20,7 @@ function highestNumberOneDismissedByAnother( deliveriesData) {
         }
     }
     
+    
     let maxBatter = ''
     let maxBowler=''
     let maxValue = -1

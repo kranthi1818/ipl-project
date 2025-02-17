@@ -28,7 +28,6 @@ function bowlerBestEconomyInSuperOver(deliveriesData){
         economyObj[bowlers] = (runs / balls)*6
     }
 
-
     let bestEconomy = {}
     let minValue = Infinity
     let bestBowler = ''

@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 function csvToJson(filePath, outputFile) {
-    return csv()
+     csv()
         .fromFile(filePath)
         .then((data) => {
             // Convert JSON data to a string with proper formatting
@@ -18,5 +18,5 @@ function csvToJson(filePath, outputFile) {
 }
 const inputCsv = path.join(__dirname, '../data/matches.csv');
 const outputJson = path.join(__dirname, '../data/matches.json');
-
+    
 csvToJson(inputCsv, outputJson);
