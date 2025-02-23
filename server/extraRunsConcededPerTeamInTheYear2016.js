@@ -7,14 +7,14 @@ function extraRunsConcededPerTeamInTheYear2016(matchesData, deliveriesData) {
 
         let idOf2016 = matchesData.reduce((idArray, matches) => {
                 if (matches["season"] == '2016') {
-                        idArray.push((matches.id))
+                        idArray.add((matches.id))
                 }
                 return idArray
-        }, [])
+        }, new Set())
 
         let result = deliveriesData.reduce((extraRuns, deliveries) => {
 
-                if (idOf2016.includes(deliveries["match_id"])) {
+                if (idOf2016.has(deliveries["match_id"])) {
 
                         extraRuns[deliveries.bowling_team] = (extraRuns[deliveries.bowling_team] ?? 0) + Number(deliveries.extra_runs)
                 }
