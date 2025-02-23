@@ -8,17 +8,16 @@ function strikeRateOfBatsmanForEverySeason(matchesData, deliveriesData) {
 
     let result  = matchesData.reduce((acc,curr)=>{
         if(!acc[curr.season]){
-            acc[curr.season] = [curr.id]
-        }else{
-            acc[curr.season].push(curr.id)
+            acc[curr.season] =  new Set()
         }
+            acc[curr.season].add(curr.id)
+        
         return acc
     },{})
-
     let batterObj = deliveriesData.reduce((acc,curr)=>{
         if(curr.batsman == 'PA Patel'){
             for(let season in result){
-                if(result[season].includes(curr.match_id)){
+                if(result[season].has(curr.match_id)){
                     if(!acc[season]){
                         acc[season] = {runs:0,balls:0}
                     }

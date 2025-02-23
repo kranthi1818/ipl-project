@@ -6,16 +6,16 @@ let deliveriesData = JSON.parse(fs.readFileSync('./data/deliveries.json', 'utf8'
 
 function top10EconomicalBowlers(matchesData, deliveriesData) {
 
-let idOf2015 = []
+let idOf2015 = new Set()
     for(let match of matchesData ){
         if(match.season == '2015'){
-            idOf2015.push(match.id)
+            idOf2015.add(match.id)
         }
     }
 
     let bowlerRunsAndBalls = {}
     for(let delivery of deliveriesData){
-        if(idOf2015.includes(delivery.match_id)){
+        if(idOf2015.has(delivery.match_id)){
             if(!bowlerRunsAndBalls[delivery.bowler]){
                 bowlerRunsAndBalls[delivery.bowler] = {runs:0,balls:0}
             }
